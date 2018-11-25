@@ -1,0 +1,14 @@
+{
+  "name": "jenkins-plugin",
+  "version": "1.0.0",
+  "description": "Execute jenkins job",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kaholo team (David Gahnassia)",
+  "license": "ISC",
+  "dependencies": {
+    "jenkins": "0.23.0"
+  }
+}

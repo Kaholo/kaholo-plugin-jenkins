@@ -1,0 +1,36 @@
+{
+    "name": "Jenkins",
+    "type": "executer",
+    "execProgram": "node",
+    "main": "app.js",
+    "version": "1.0.0",
+    "imgUrl": "jenkins.png",
+    "methods": [
+      {
+        "name": "buildJob",
+        "viewName": "Build a job",
+        "params": [
+          {
+            "name": "URL",
+            "viewName": "Url ",
+            "type": "string"
+          },
+          {
+            "name": "JOB",
+            "viewName": "Job ",
+            "type": "string"
+          },
+          {
+            "name": "TOKEN",
+            "viewName": "token ",
+            "type": "string"
+          },
+          {
+            "name": "PARAMETERS",
+            "viewName": "parameters ",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+}
