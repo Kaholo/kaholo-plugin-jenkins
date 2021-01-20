@@ -3,32 +3,49 @@
     "type": "executer",
     "execProgram": "node",
     "main": "app.js",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "imgUrl": "jenkins.png",
+    "settings": [
+      {
+        "name": "URL",
+        "viewName": "Jenkins Url",
+        "type": "string"
+      },
+      {
+        "name": "user",
+        "viewName": "Username",
+        "type": "string"
+      },
+      {
+        "name": "TOKEN",
+        "viewName": "Token",
+        "type": "vault"
+      }
+    ],
     "methods": [
       {
         "name": "buildJob",
-        "viewName": "Build a job",
+        "viewName": "Build job",
         "params": [
           {
-            "name": "URL",
-            "viewName": "Url ",
-            "type": "string"
-          },
-          {
             "name": "JOB",
-            "viewName": "Job ",
-            "type": "string"
-          },
-          {
-            "name": "TOKEN",
-            "viewName": "token ",
+            "viewName": "Job name",
             "type": "string"
           },
           {
             "name": "PARAMETERS",
-            "viewName": "parameters ",
+            "viewName": "Parameters (Object)",
             "type": "string"
+          },
+          {
+            "name": "waitForEnd",
+            "viewName": "Wait for build end",
+            "type": "boolean"
+          },
+          {
+            "name": "failOnFailure",
+            "viewName": "Fail on build failure",
+            "type": "boolean"
           }
         ]
       }
