@@ -5,7 +5,8 @@ function getJenkinsClient(settings){
 		baseUrl: settings.URL,
 		headers: {
 			Authorization: `Basic ${Buffer.from(settings.user + ':' + settings.TOKEN).toString('base64')}`
-		}
+		},
+		crumbIssuer: (settings.crumbIssuer && settings.crumbIssuer!=="false")
 	});
 }
 

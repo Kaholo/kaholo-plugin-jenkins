@@ -1,6 +1,6 @@
 {
   "name": "jenkins-plugin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Execute jenkins job",
   "main": "app.js",
   "scripts": {

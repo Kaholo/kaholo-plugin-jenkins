@@ -3,7 +3,7 @@
     "type": "executer",
     "execProgram": "node",
     "main": "app.js",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "imgUrl": "jenkins.png",
     "description": "Integration with Jenkins.",
     "category": "CI/CD",
@@ -22,6 +22,11 @@
         "name": "TOKEN",
         "viewName": "Token",
         "type": "vault"
+      },
+      {
+        "name": "crumbIssuer",
+        "viewName": "CSRF Enabled",
+        "type": "boolean"
       }
     ],
     "methods": [
@@ -32,21 +37,26 @@
           {
             "name": "JOB",
             "viewName": "Job name",
+            "placeholder": "myJobName",
             "type": "string"
           },
           {
             "name": "PARAMETERS",
+            "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
+            "placeholder": "{param1: 'paramValue'}",
             "viewName": "Parameters (Object)",
             "type": "string"
           },
           {
             "name": "waitForEnd",
             "viewName": "Wait for build end",
+            "description": "Should the action wait until the build done",
             "type": "boolean"
           },
           {
             "name": "failOnFailure",
             "viewName": "Fail on build failure",
+            "description": "Determine if the action should fail if the build fails",
             "type": "boolean"
           }
         ]
