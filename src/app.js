@@ -83,6 +83,13 @@ async function buildJob(action, settings){
 		throw build;
 	}
 
+	build.buildLog = await new Promise((res, rej) => {
+		jenkinsClient.build.log(buildOptions.name, buildNumber, (err, data) => {
+			if (err) rej(err)
+			else if (data) res(data)
+		})
+	})
+	
 	return build;
 }
 
