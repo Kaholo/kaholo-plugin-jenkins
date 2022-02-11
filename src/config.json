@@ -1,5 +1,6 @@
 {
     "name": "Jenkins",
+    "viewName": "Jenkins",
     "type": "executer",
     "execProgram": "node",
     "main": "app.js",
@@ -7,6 +8,11 @@
     "imgUrl": "jenkins.png",
     "description": "Integration with Jenkins.",
     "category": "CI/CD",
+    "keywords": [
+        "jenkins",
+        "build",
+        "job"
+        ],
     "settings": [
       {
         "name": "URL",
@@ -45,18 +51,19 @@
             "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
             "placeholder": "{param1: 'paramValue'}",
             "viewName": "Parameters (Object)",
-            "type": "string"
+            "type": "string",
+            "learnUrl": "https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job" 
           },
           {
             "name": "waitForEnd",
             "viewName": "Wait for build end",
-            "description": "Should the action wait until the build done",
+            "description": "Determine if the action should wait for the build to finish or not.",
             "type": "boolean"
           },
           {
             "name": "failOnFailure",
             "viewName": "Fail on build failure",
-            "description": "Determine if the action should fail if the build fails",
+            "description": "Determine if the action should fail in case the Jenkins build fails.",
             "type": "boolean"
           }
         ]
