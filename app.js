@@ -2,7 +2,7 @@ const kaholoPluginLibrary = require("@kaholo/plugin-library");
 const { promisify } = require("util");
 const {
   getJenkinsClient,
-  waitOnQueue,
+  waitInQueue,
   waitForJobEnd,
 } = require("./jenkins-helpers");
 
@@ -25,22 +25,22 @@ async function buildJob({
     (...args) => jenkinsClient.job.build(...args),
   )(buildOptions);
 
-  if (!waitForEnd) {
-    return { queueNumber: buildQueueNumber };
+  if (waitForEnd) {
+    const buildNumber = await waitInQueue(jenkinsClient, buildQueueNumber);
+    const build = await waitForJobEnd(jenkinsClient, buildOptions.name, buildNumber);
+
+    if (build.result === "FAILURE" && failOnFailure) {
+      throw build;
+    }
+
+    build.buildLog = await promisify(
+      (...args) => jenkinsClient.build.log(...args),
+    )(buildOptions.name, buildNumber);
+
+    return build;
   }
 
-  const buildNumber = await waitOnQueue(jenkinsClient, buildQueueNumber);
-  const build = await waitForJobEnd(jenkinsClient, buildOptions.name, buildNumber);
-
-  if (build.result === "FAILURE" && failOnFailure) {
-    throw build;
-  }
-
-  build.buildLog = await promisify(
-    (...args) => jenkinsClient.build.log(...args),
-  )(buildOptions.name, buildNumber);
-
-  return build;
+  return { queueNumber: buildQueueNumber };
 }
 
 module.exports = kaholoPluginLibrary.bootstrap({

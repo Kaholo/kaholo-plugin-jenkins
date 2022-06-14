@@ -18,7 +18,7 @@ const getJenkinsClient = ({
   },
 });
 
-async function waitOnQueue(jenkinsClient, buildQueueNumber) {
+async function waitInQueue(jenkinsClient, buildQueueNumber) {
   const queueItem = await promisify(
     (...args) => jenkinsClient.queue.item(...args),
   )(buildQueueNumber);
@@ -33,7 +33,7 @@ async function waitOnQueue(jenkinsClient, buildQueueNumber) {
   }
 
   await delay(500);
-  return waitOnQueue(jenkinsClient, buildQueueNumber);
+  return waitInQueue(jenkinsClient, buildQueueNumber);
 }
 
 async function waitForJobEnd(jenkinsClient, job, buildNumber) {
@@ -50,7 +50,7 @@ async function waitForJobEnd(jenkinsClient, job, buildNumber) {
 }
 
 module.exports = {
-  waitOnQueue,
+  waitInQueue,
   waitForJobEnd,
   getJenkinsClient,
 };
