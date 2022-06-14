@@ -1,14 +1,20 @@
 {
   "name": "jenkins-plugin",
-  "version": "2.0.1",
   "description": "Execute jenkins job",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "author": "Kaholo team (David Gahnassia)",
   "license": "ISC",
   "dependencies": {
+    "@kaholo/plugin-library": "^2.0.0",
     "jenkins": "0.28.1"
+  },
+  "devDependencies": {
+    "eslint": "8.17.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
   }
 }

@@ -1,98 +1,48 @@
-var jenkins = require('jenkins'); 
+const kaholoPluginLibrary = require("@kaholo/plugin-library");
+const { promisify } = require("util");
+const {
+  getJenkinsClient,
+  waitOnQueue,
+  waitForJobEnd,
+} = require("./jenkins-helpers");
 
-function getJenkinsClient(settings){
-  return jenkins({ 
-    baseUrl: settings.URL,
-    headers: {
-      Authorization: `Basic ${Buffer.from(settings.user + ':' + settings.TOKEN).toString('base64')}`
-    },
-    crumbIssuer: (settings.crumbIssuer && settings.crumbIssuer!=="false")
-  });
-}
-
-async function waitOnQueue(jenkinsClient, buildQueueNumber) {
-  const buildNumber = await new Promise((resolve,reject)=>{
-    jenkinsClient.queue.item(buildQueueNumber, async function(err, item) {
-      if (err) return reject(err);
-      
-      if (item.executable) {
-        return resolve(item.executable.number);
-      }
-      
-      if (item.cancelled) {
-        return reject('cancelled');
-      }
-      resolve(null)
-    });
-  });
-  
-  // If got buildNumber
-  if(buildNumber!==null){
-    return buildNumber;
-  }
-  
-  // Wait 500ms and check again
-  await new Promise((timeoutResolve)=>setTimeout(timeoutResolve,500));
-  return waitOnQueue(jenkinsClient, buildQueueNumber);
-}
-
-async function waitUntilEnd(jenkinsClient, job, buildNumber) {
-  const build = await new Promise((resolve,reject)=>{
-    jenkinsClient.build.get(job, buildNumber, async function(err, item) {
-      if (err) return reject(err);
-      resolve(item);
-    });
-  });
-  
-  if (build.result){
-    return build;
-  }
-  // Wait 500ms and check again
-  await new Promise((timeoutResolve)=>setTimeout(timeoutResolve,500));
-  return waitUntilEnd(jenkinsClient, job, buildNumber);
-}
-
-async function buildJob(action, settings){
-  let jenkinsClient = getJenkinsClient(settings);
-  let buildOptions = { 
-    name: action.params.JOB
+async function buildJob({
+  JOB: jobName,
+  PARAMETERS: jobParameters,
+  waitForEnd,
+  failOnFailure,
+  ...jenkinsClientConfig
+}) {
+  const buildOptions = {
+    name: jobName,
   };
-  
-  if(action.params.PARAMETERS){
-    buildOptions.parameters = action.params.PARAMETERS;
+  if (jobParameters) {
+    buildOptions.parameters = jobParameters;
   }
-  
-  const buildQueueNumber = await new Promise((resolve, reject) => {
-    jenkinsClient.job.build(buildOptions, function(err, data) {
-      if (err) {
-        return reject(err)
-      };
-      return resolve(data);
-    });
-  })
-  
-  if (!action.params.waitForEnd || action.params.waitForEnd === "false"){
-    return {queueNumber: buildQueueNumber};
+
+  const jenkinsClient = getJenkinsClient(jenkinsClientConfig);
+  const buildQueueNumber = await promisify(
+    (...args) => jenkinsClient.job.build(...args),
+  )(buildOptions);
+
+  if (!waitForEnd) {
+    return { queueNumber: buildQueueNumber };
   }
-  
-  const buildNumber = await waitOnQueue(jenkinsClient,buildQueueNumber);
-  
-  const build = await waitUntilEnd(jenkinsClient, buildOptions.name, buildNumber);
-  
-  if(build.result=='FAILURE' && (action.params.failOnFailure === true || action.params.failOnFailure === "true")){
+
+  const buildNumber = await waitOnQueue(jenkinsClient, buildQueueNumber);
+  const build = await waitForJobEnd(jenkinsClient, buildOptions.name, buildNumber);
+
+  if (build.result === "FAILURE" && failOnFailure) {
     throw build;
   }
-  
-  build.buildLog = await new Promise((res, rej) => {
-    jenkinsClient.build.log(buildOptions.name, buildNumber, (err, data) => {
-      if (err) rej(err)
-      else if (data) res(data)
-    })
-  })
-  
+
+  build.buildLog = await promisify(
+    (...args) => jenkinsClient.build.log(...args),
+  )(buildOptions.name, buildNumber);
+
   return build;
 }
 
-module.exports = {
-  buildJob : buildJob
-}
+module.exports = kaholoPluginLibrary.bootstrap({
+  buildJob,
+});

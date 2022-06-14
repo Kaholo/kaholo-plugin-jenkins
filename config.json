@@ -4,7 +4,7 @@
     "type": "executer",
     "execProgram": "node",
     "main": "app.js",
-    "version": "2.0.3",
+    "version": "2.1.0",
     "imgUrl": "jenkins.png",
     "description": "Integration with Jenkins.",
     "category": "CI/CD",
@@ -41,6 +41,26 @@
         "viewName": "Build job",
         "params": [
           {
+            "name": "URL",
+            "viewName": "Jenkins Url",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "viewName": "Username",
+            "type": "string"
+          },
+          {
+            "name": "TOKEN",
+            "viewName": "Token",
+            "type": "vault"
+          },
+          {
+            "name": "crumbIssuer",
+            "viewName": "CSRF Enabled",
+            "type": "boolean"
+          },
+          {
             "name": "JOB",
             "viewName": "Job name",
             "placeholder": "myJobName",
@@ -48,10 +68,11 @@
           },
           {
             "name": "PARAMETERS",
-            "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
-            "placeholder": "{param1: 'paramValue'}",
             "viewName": "Parameters (Object)",
+            "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
+            "placeholder": "{\"param1\": \"paramValue\"}",
             "type": "string",
+            "parserType": "object",
             "learnUrl": "https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job" 
           },
           {
