@@ -22,7 +22,7 @@ async function buildJob({
 
   const jenkinsClient = getJenkinsClient(jenkinsClientConfig);
   const buildQueueNumber = await promisify(
-    (...args) => jenkinsClient.job.build(...args),
+    jenkinsClient.job.build.bind(jenkinsClient.job),
   )(buildOptions);
 
   if (waitForEnd) {
@@ -34,7 +34,7 @@ async function buildJob({
     }
 
     build.buildLog = await promisify(
-      (...args) => jenkinsClient.build.log(...args),
+      jenkinsClient.build.log.bind(jenkinsClient.build),
     )(buildOptions.name, buildNumber);
 
     return build;

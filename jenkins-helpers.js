@@ -20,7 +20,7 @@ const getJenkinsClient = ({
 
 async function waitInQueue(jenkinsClient, buildQueueNumber) {
   const queueItem = await promisify(
-    (...args) => jenkinsClient.queue.item(...args),
+    jenkinsClient.queue.item.bind(jenkinsClient.queue),
   )(buildQueueNumber);
 
   if (queueItem.cancelled) {
@@ -38,7 +38,7 @@ async function waitInQueue(jenkinsClient, buildQueueNumber) {
 
 async function waitForJobEnd(jenkinsClient, job, buildNumber) {
   const build = await promisify(
-    (...args) => jenkinsClient.build.get(...args),
+    jenkinsClient.build.get.bind(jenkinsClient.build),
   )(job, buildNumber);
 
   if (build.result) {
