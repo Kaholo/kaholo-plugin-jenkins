@@ -25,7 +25,7 @@ async function buildJob({
     jenkinsClient.job.build.bind(jenkinsClient.job),
   )(buildOptions);
 
-  if (waitForEnd) {
+  if (waitForEnd || failOnFailure) {
     const buildNumber = await waitInQueue(jenkinsClient, buildQueueNumber);
     const build = await waitForJobEnd(jenkinsClient, buildOptions.name, buildNumber);
 
