@@ -9,26 +9,31 @@
     "description": "Integration with Jenkins.",
     "category": "CI/CD",
     "keywords": [
-        "jenkins",
-        "build",
-        "job"
-        ],
+      "jenkins",
+      "build",
+      "job"
+    ],
+    "auth": {
+      "authId": "jenkinsAccount",
+      "params": [
+        {
+          "name": "URL",
+          "viewName": "Jenkins URL",
+          "type": "string"
+        },
+        {
+          "name": "user",
+          "viewName": "Username",
+          "type": "string"
+        },
+        {
+          "name": "TOKEN",
+          "viewName": "Token",
+          "type": "vault"
+        }
+      ]
+    },
     "settings": [
-      {
-        "name": "URL",
-        "viewName": "Jenkins Url",
-        "type": "string"
-      },
-      {
-        "name": "user",
-        "viewName": "Username",
-        "type": "string"
-      },
-      {
-        "name": "TOKEN",
-        "viewName": "Token",
-        "type": "vault"
-      },
       {
         "name": "crumbIssuer",
         "viewName": "CSRF Enabled",
@@ -40,21 +45,6 @@
         "name": "buildJob",
         "viewName": "Build job",
         "params": [
-          {
-            "name": "URL",
-            "viewName": "Jenkins Url",
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "viewName": "Username",
-            "type": "string"
-          },
-          {
-            "name": "TOKEN",
-            "viewName": "Token",
-            "type": "vault"
-          },
           {
             "name": "crumbIssuer",
             "viewName": "CSRF Enabled",
