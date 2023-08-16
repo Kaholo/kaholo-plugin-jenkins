@@ -5,8 +5,8 @@
     "execProgram": "node",
     "main": "app.js",
     "version": "2.2.0",
-    "imgUrl": "jenkins.png",
-    "description": "Integration with Jenkins.",
+    "imgUrl": "logo.png",
+    "description": "Automation for continuous integration and continuous delivery",
     "category": "CI/CD",
     "keywords": [
       "jenkins",
