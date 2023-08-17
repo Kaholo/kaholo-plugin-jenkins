@@ -37,7 +37,7 @@
     "methods": [
       {
         "name": "buildJob",
-        "viewName": "Build job",
+        "viewName": "Build Job",
         "params": [
           {
             "name": "JOB",
@@ -47,11 +47,11 @@
           },
           {
             "name": "PARAMETERS",
-            "viewName": "Parameters (Object)",
-            "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
-            "placeholder": "{\"param1\": \"paramValue\"}",
-            "type": "string",
-            "parserType": "object",
+            "viewName": "Parameters",
+            "description": "Parameters as key=value pairs, one per line, or if using code layer a JSON object",
+            "placeholder": "BRANCH=dev\nMODE=debug",
+            "type": "text",
+            "parserType": "keyValuePairs",
             "learnUrl": "https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job" 
           },
           {

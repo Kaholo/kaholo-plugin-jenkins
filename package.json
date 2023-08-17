@@ -9,7 +9,7 @@
   "author": "Kaholo team (David Gahnassia)",
   "license": "ISC",
   "dependencies": {
-    "@kaholo/plugin-library": "^2.0.0",
+    "@kaholo/plugin-library": "^2.4.0",
     "jenkins": "0.28.1"
   },
   "devDependencies": {
