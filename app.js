@@ -45,4 +45,5 @@ async function buildJob({
 
 module.exports = kaholoPluginLibrary.bootstrap({
   buildJob,
+  buildJobWithParams: buildJob,
 });

@@ -46,6 +46,30 @@
             "type": "string"
           },
           {
+            "name": "waitForEnd",
+            "viewName": "Wait for build end",
+            "description": "Determine if the action should wait for the build to finish or not.",
+            "type": "boolean"
+          },
+          {
+            "name": "failOnFailure",
+            "viewName": "Fail on build failure",
+            "description": "Determine if the action should fail in case the Jenkins build fails.",
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "buildJobWithParams",
+        "viewName": "Build Job With Parameters",
+        "params": [
+          {
+            "name": "JOB",
+            "viewName": "Job name",
+            "placeholder": "myJobName",
+            "type": "string"
+          },
+          {
             "name": "PARAMETERS",
             "viewName": "Parameters",
             "description": "Parameters as key=value pairs, one per line, or if using code layer a JSON object",
