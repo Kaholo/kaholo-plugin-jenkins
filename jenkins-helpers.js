@@ -9,10 +9,8 @@ const getJenkinsClient = ({
   URL: baseUrl,
   TOKEN: token,
   user,
-  crumbIssuer,
 }) => jenkins({
   baseUrl,
-  crumbIssuer,
   headers: {
     Authorization: `Basic ${Buffer.from(`${user}:${token}`).toString("base64")}`,
   },

@@ -33,23 +33,12 @@
         }
       ]
     },
-    "settings": [
-      {
-        "name": "crumbIssuer",
-        "viewName": "CSRF Enabled",
-        "type": "boolean"
-      }
-    ],
+    "settings": [],
     "methods": [
       {
         "name": "buildJob",
         "viewName": "Build job",
         "params": [
-          {
-            "name": "crumbIssuer",
-            "viewName": "CSRF Enabled",
-            "type": "boolean"
-          },
           {
             "name": "JOB",
             "viewName": "Job name",
