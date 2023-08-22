@@ -4,7 +4,7 @@
     "type": "executer",
     "execProgram": "node",
     "main": "app.js",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "imgUrl": "logo.png",
     "description": "Trigger Jenkins CI/CD Automation pipelines",
     "category": "CI/CD",
