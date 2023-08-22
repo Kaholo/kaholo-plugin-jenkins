@@ -25,6 +25,10 @@ async function buildJob({
     jenkinsClient.job.build.bind(jenkinsClient.job),
   )(buildOptions);
 
+  if (!waitForEnd && failOnFailure) {
+    console.info("\nWaiting for build end to determine SUCCESS/FAILURE status.\n");
+  }
+
   if (waitForEnd || failOnFailure) {
     const buildNumber = await waitInQueue(jenkinsClient, buildQueueNumber);
     const build = await waitForJobEnd(jenkinsClient, buildOptions.name, buildNumber);
@@ -45,4 +49,5 @@ async function buildJob({
 
 module.exports = kaholoPluginLibrary.bootstrap({
   buildJob,
+  buildJobWithParams: buildJob,
 });

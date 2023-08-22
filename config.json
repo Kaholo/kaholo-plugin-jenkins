@@ -5,77 +5,106 @@
     "execProgram": "node",
     "main": "app.js",
     "version": "2.2.0",
-    "imgUrl": "jenkins.png",
-    "description": "Integration with Jenkins.",
+    "imgUrl": "logo.png",
+    "description": "Trigger Jenkins CI/CD Automation pipelines",
     "category": "CI/CD",
     "keywords": [
       "jenkins",
       "build",
-      "job"
+      "job",
+      "trigger",
+      "parameters",
+      "pipelines"
     ],
     "auth": {
       "authId": "jenkinsAccount",
       "params": [
         {
           "name": "URL",
-          "viewName": "Jenkins URL",
+          "viewName": "Jenkins Base URL",
+          "description": "The URL of the Jenkins Dashboard",
+          "placeholder": "https://example.kaholodemo.net/jenkins",
           "type": "string"
         },
         {
           "name": "user",
-          "viewName": "Username",
+          "viewName": "Jenkins Username",
+          "description": "The Jenkins Username associated with the Token",
+          "placeholder": "kawaguchi",
           "type": "string"
         },
         {
           "name": "TOKEN",
-          "viewName": "Token",
+          "viewName": "Jenkins API Token",
+          "description": "A vaulted Jenkins API Token issued to the Jenkins user",
+          "placeholder": "Jenkins token kawaguchi001",
           "type": "vault"
         }
       ]
     },
-    "settings": [
-      {
-        "name": "crumbIssuer",
-        "viewName": "CSRF Enabled",
-        "type": "boolean"
-      }
-    ],
+    "settings": [],
     "methods": [
       {
         "name": "buildJob",
-        "viewName": "Build job",
+        "viewName": "Build Now",
         "params": [
           {
-            "name": "crumbIssuer",
-            "viewName": "CSRF Enabled",
-            "type": "boolean"
+            "name": "JOB",
+            "viewName": "Jenkins Job Name",
+            "required": true,
+            "placeholder": "Jenkins Pipeline 001",
+            "type": "string"
           },
           {
+            "name": "waitForEnd",
+            "viewName": "Wait for Job End",
+            "description": "Wait for Jenkins job to finish and return detailed status before proceeding with Kaholo pipeline",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "failOnFailure",
+            "viewName": "Fail on Job Failure",
+            "description": "If Jenkins Job fails, make Kaholo Action fail too",
+            "type": "boolean",
+            "default": true
+          }
+        ]
+      },
+      {
+        "name": "buildJobWithParams",
+        "viewName": "Build with Parameters",
+        "params": [
+          {
             "name": "JOB",
-            "viewName": "Job name",
-            "placeholder": "myJobName",
+            "viewName": "Jenkins Job Name",
+            "required": true,
+            "placeholder": "Jenkins Pipeline 001",
             "type": "string"
           },
           {
             "name": "PARAMETERS",
-            "viewName": "Parameters (Object)",
-            "description": "Pass a key-value code object of parameters. For example {param1: 'paramValue'}",
-            "placeholder": "{\"param1\": \"paramValue\"}",
-            "type": "string",
-            "parserType": "object",
-            "learnUrl": "https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job" 
+            "viewName": "Parameters",
+            "description": "Parameters as key=value pairs, one per line, or if using code layer an object",
+            "placeholder": "BRANCH=dev\nMODE=debug",
+            "type": "text",
+            "parserType": "keyValuePairs",
+            "required": true,
+            "learnUrl": "https://wiki.jenkins.io/display/JENKINS/Parameterized-Build.html" 
           },
           {
             "name": "waitForEnd",
-            "viewName": "Wait for build end",
-            "description": "Determine if the action should wait for the build to finish or not.",
-            "type": "boolean"
+            "viewName": "Wait for Job End",
+            "description": "Wait for Jenkins job to finish and return detailed status before proceeding with Kaholo pipeline",
+            "type": "boolean",
+            "default": true
           },
           {
             "name": "failOnFailure",
-            "viewName": "Fail on build failure",
-            "description": "Determine if the action should fail in case the Jenkins build fails.",
-            "type": "boolean"
+            "viewName": "Fail on Job Failure",
+            "description": "If Jenkins Job fails, make Kaholo Action fail too",
+            "type": "boolean",
+            "default": true
           }
         ]
       }
