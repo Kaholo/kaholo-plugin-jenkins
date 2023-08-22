@@ -1,25 +1,57 @@
-# kaholo-plugin-jenkins
-Jenkins plugin for Kaholo.
+# Kaholo Jenkins Plugin
+Jenkins is an open source automation server. It is a server-based system that runs in servlet containers such as Apache Tomcat.
 
-This plugin is a wrapper for Jenkins RestAPI. 
-The plugin is using user's token for authenticating its requests.
+This plugin extends Kaholo's functionality in include triggering Jenkins jobs. Both Build and Build with Parameters are supported.
 
-Further information on user's token and authenticating requests can be found on [Jenkins documentation](https://www.jenkins.io/doc/book/system-administration/authenticating-scripted-clients/).
+## Plugin Installation
+For download, installation, upgrade, downgrade and troubleshooting of plugins in general, see [INSTALL.md](./INSTALL.md).
 
-## Settings ##
+## Authentication
+Authentication is managed in Plugins | Settings, where the plugin's name is a blue hyperlink leading to the plugin's settings and accounts. This plugin has no settings but makes use of only accounts.
 
-1. Jenkins URL (String) - The URL of your Jenkins.
-2. Username (String) - The username used to trigger the builds.
-3. Token (Vault) - The user token item stored in Kaholo Vault.
+Alternately accounts may be created using the "Add New Plugin Account" drop-down feature in parameter "Account" after selecting a plugin method.
 
+The required Account parameters include:
+* Jenkins Base URL - The URL of your Jenkins dashboard, excluding the final `/`
+* Jenkins Username - The Jenkins username associated with the provided token
+* Jenkins API Token - The token associated with the provided username, stored in the Kaholo vault
 
-## Method: Build job
+If an account is set as the default account, all new pipeline actions created using the plugin will be preconfigured to use the account, as a convenience.
 
-Triggers a job build on Jenkins. [Learn More](https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job)
+## Method: Build Now
+Triggers a Jenkins job as when using "Build Now" in the Jenkins Dashboard. This method works only with jobs that have no parameters.
 
-### Parameters
+### Parameter: Jenkins Job Name
+The name of the Job (Pipeline) in the Jenkins Dashboard. This is case insensitive.
 
-1. Job name (String) - The name of the job to build.
-2. Parameters (Object) - The build parameters. Pass a key-value code object of parameters, such as ```{param1: 'paramValue'}```.
-3. Wait For Build End (Boolean) - Determines if Kaholo should wait for the build to finish or not. Default value: ```false```.
-4. Fail On Build Failure (Boolean) - Determines if Kaholo should fail the action in case the Jenkins build fails. This works only if `Wait for build end` parameter is marked as `true`. Default value: ```false```.
+### Parameter: Wait for Job End
+If selected, the Kaholo Action will wait for the Jenkins Job to complete and return details and status of the job. Otherwise, only a Jenkins queueNumber is returned.
+
+### Parameter: Fail on Job Failure
+If selected, the Kaholo Action will end in Failure (with red status indicator) if the Jenkins job fails. This is required if the action is also configured to stop the pipeline on failure. Otherwise regardless of Jenkins job status, the Action will succeed and the Kaholo pipeline will continue. Enabling "Fail on Job Failure" implies to "Wait for Job End".
+
+## Method: Build with Parameters
+Triggers a Jenkins job as when using "Build with Parameters" in the Jenkins Dashboard. This method works only with jobs that have parameters.
+
+### Parameter: Jenkins Job Name
+The name of the Job (Pipeline) in the Jenkins Dashboard. This is case insensitive.
+
+### Parameter: Parameters
+Parameters are entered as plain text key=value pairs. For example:
+
+    BRANCH=dev
+    MODE=debug
+
+If using the code layer instead, parameters may be provided as either a string or an object. For example:
+
+    "BRANCH=dev\nMODE=debug"
+
+or
+
+    new Object({BRANCH: "dev", MODE: "debug"})
+
+### Parameter: Wait for Job End
+If selected, the Kaholo Action will wait for the Jenkins Job to complete and return details and status of the job. Otherwise, only a Jenkins queueNumber is returned.
+
+### Parameter: Fail on Job Failure
+If selected, the Kaholo Action will end in Failure (with red status indicator) if the Jenkins job fails. This is required if the action is also configured to stop the pipeline on failure. Otherwise regardless of Jenkins job status, the Action will succeed and the Kaholo pipeline will continue. Enabling "Fail on Job Failure" implies to "Wait for Job End".
